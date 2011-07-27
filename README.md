@@ -31,16 +31,15 @@ badges from it.
   the p2pu badge pilot data**
 
 The badge processer expects badge_getter to output a dictionary looking something like this:
-    {
-          'proud_js_expert' : {
-              'name' : 'JavaScript Expert',
-              'url': 'http://example.com/badge-evidence/user-1/js-expert',
-              'image_url': 'http://example.com/badge-images/js-expert.png',
-              'description': 'Awarded for being totally rad at JavaScript',
-              'template': 'http://example.com/badge-requirements/js-expert', }
-          'ashamed_cobol_master': { ... },
-          'reluctant_java_user': { ... },
-     }
+    { 'proud_js_expert' : {
+          'name' : 'JavaScript Expert',
+          'url': 'http://example.com/badge-evidence/user-1/js-expert',
+          'image_url': 'http://example.com/badge-images/js-expert.png',
+          'description': 'Awarded for being totally rad at JavaScript',
+          'template': 'http://example.com/badge-requirements/js-expert', }
+      'ashamed_cobol_master': { ... },
+      'reluctant_java_user': { ... },
+    }
 
 You are welcome to include other information in the dictionary; at the moment
 it will be ignored. In future versions it will likely be included as extra
