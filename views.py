@@ -6,8 +6,11 @@ from django.contrib.auth.models import User
 from urllib2 import urlopen, URLError, HTTPError
 from urllib import urlencode
 
-# TODO: pull the get_awarded_badges method into the badges app?
-from users.badges import get_awarded_badges
+from utils import *
+
+badge_getter = settings.MOZBADGES['badge_getter']
+hub_uri = settings.MOZBADGES['hub']
+get_awarded_badges = process_getter(badge_getter)
 
 json_mime = 'application/json'
 badge_mime = 'application/x-badge-manifest'
@@ -17,6 +20,7 @@ def retrieve_badge(request, identifier):
     Gets the manifest for a specific badge based on identifier.
     See _b64badges() for how identifiers are determined
     """
+    
     print 'getting badge: %s' % identifier
     try:
         data = json.loads(base64url_decode(str(identifier)))
@@ -44,22 +48,30 @@ def user_badges(request):
     
 
 def send_badges(request):
-    # TODO: this should only work on POST unless settings.DEBUG is True
+    # changes state, should not be GETable.
+    if not settings.DEBUG and not request.method == 'POST':
+        return HttpResponse('GET not supported', status=501)
     
-    # TODO: definitely don't hardcode this
-    issue_path = "http://hub.local/badges/issue"
+    # TODO: do a better job of defining API paths
+    issue_path = "%s/badges/issue" % hub_uri
     user = request.user
     postdata = urlencode({'urls': json.dumps(badge_urls(request))})
+
+    status = 200
+    resp = {'status':'accepted'}
     
     try:
-        resp = urlopen(issue_path, postdata)
+        hubresp = urlopen(issue_path, postdata)
     except HTTPError, e:
-        # TODO: if the error is truly unexpected (server down)
+        # TODO: what do if the error is truly unexpected (server down)
         errors = json.loads(e.read())
-        return HttpResponse(json.dumps({'errors': errors}), mimetype=json_mime, status=500)
-    return HttpResponse(json.dumps({'status':'okay'}), mimetype=json_mime)
+        resp = {'status':'failure', 'errors': errors}
+        status = 500
+    except URLError, e:
+        resp = {'status':'fatal', 'message': 'could not open connection to hub'}
+        status = 500
+    return HttpResponse(json.dumps(resp), mimetype=json_mime, status=status)
 
-import base64
 def badge_urls(request):
     """
     Gets a list of absolute urls for the badges belonging to the currently
@@ -87,10 +99,3 @@ def _b64badges(user):
         raw_json = json.dumps({'email':email, 'id':tag})
         urls.append(base64url_encode(raw_json))
     return urls
-
-def base64url_decode(input):
-    input += '=' * (4 - (len(input) % 4))
-    return base64.urlsafe_b64decode(input)
-
-def base64url_encode(input):
-    return base64.urlsafe_b64encode(input).replace('=', '')
