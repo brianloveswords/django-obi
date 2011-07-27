@@ -1,6 +1,7 @@
 import logging 
 import json
-from django.http import HttpResponse, Http404
+from django.conf import settings
+from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.contrib.auth.models import User
 from urllib2 import urlopen, URLError, HTTPError
 from urllib import urlencode
@@ -43,6 +44,8 @@ def user_badges(request):
     
 
 def send_badges(request):
+    # TODO: this should only work on POST unless settings.DEBUG is True
+    
     # TODO: definitely don't hardcode this
     issue_path = "http://hub.local/badges/issue"
     user = request.user
@@ -55,6 +58,14 @@ def send_badges(request):
         errors = json.loads(e.read())
         return HttpResponse(json.dumps({'errors': errors}), mimetype=json_mime, status=500)
     return HttpResponse(json.dumps({'status':'okay'}), mimetype=json_mime)
+
+def diagnose(request):
+    """
+    This view only work if settings.DEBUG is True.
+    """
+    if not settings.DEBUG:
+        return HttpResponseForbidden()
+    return HttpResponse('rockin')
 
 import base64
 def badge_urls(request):
