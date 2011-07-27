@@ -4,6 +4,8 @@ from django.test import TestCase
 from django.conf import settings
 from urllib2 import urlopen, HTTPError, URLError
 
+import utils
+
 class SettingsTests(TestCase):
     def test_existence(self):
         self.assertTrue(hasattr(settings, 'MOZBADGES'), 'Settings missing MOZBADGES attribute')
@@ -29,5 +31,12 @@ class SettingsTests(TestCase):
             self.assertTrue(False, "Valid looking uri, but could not lookup. Problem may be temporary.")
         except HTTPError, e:
             self.assertTrue(False, "Expecting HTTP 200 from hub, got %s" % httpstatus)
+
+    def test_badge_getter(self):
+        q_getter = settings.MOZBADGES.get('badge_getter', '')
+        self.assertTrue(q_getter, "settings.MOZBADGES['badge_getter'] must be set.")
         
+        self.assertIn('.', q_getter, "settings.MOZBADGES['badge_getter'] method probably shouldn't be top level.")
         
+        method = utils.process_getter(q_getter)
+        self.assertTrue(callable(method), "%s not a callable object." % q_getter)
