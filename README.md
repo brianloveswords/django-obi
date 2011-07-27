@@ -54,3 +54,17 @@ The badge processer expects badge_getter to output a dictionary looking somethin
 You are welcome to include other information in the dictionary; at the moment
 it will be ignored. In future versions it will likely be included as extra
 metadata passed to the hub.
+
+## How to send badges
+
+Hook up a route to the view `send_badges`, and have a logged-in user make an
+empty POST request to it.
+
+The return value will be some (potentially) helpful json. You can read the
+`status` attribute on the response payload and expect one of three results:
+`accepted`, which is good; `failed`, which is bad (validation error) and will
+have an additional `errors` attribute which will be fairly annoying to get
+data out of because it's keyed by the full URL to each badge you just tried to
+send; and `fatal` which is really bad and indicates either sort of server
+failure on the hub side (or you specified an valid-looking but bad uri for the
+hub in your settings).
