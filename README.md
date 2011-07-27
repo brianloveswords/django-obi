@@ -1,9 +1,11 @@
 # Django Open Badge Integration
 
 ## Overview
+Step 0: Clone this repo somewhere in your django app's path and enable it in
+your setting file's `INSTALLED_APPS`.
 
-You'll need to modify your settings file and include something resembling the
-following:
+While you're mucking around in there, include an additional setting, something
+resembling the following:
 
 ```python    
 MOZBADGES = {
