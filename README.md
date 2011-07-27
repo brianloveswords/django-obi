@@ -57,6 +57,11 @@ metadata passed to the hub.
 
 ## How to send badges
 
+**The authenticated user must have an email address associated with their
+  account (that is, stored in the auth_user table and accessible by
+  django.contrib.auth.models.User). Bad things will happen if the user has no
+  email address. Always make sure the user has an email address!**
+
 Hook up a route to the view `send_badges`, and have a logged-in user make an
 empty POST request to it.
 
