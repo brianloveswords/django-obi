@@ -15,6 +15,7 @@ get_awarded_badges = process_getter(badge_getter)
 json_mime = 'application/json'
 badge_mime = 'application/x-badge-manifest'
 
+
 def retrieve_badge(request, identifier):
     """
     Gets the manifest for a specific badge based on identifier.
@@ -30,7 +31,7 @@ def retrieve_badge(request, identifier):
     except:
         raise Http404()
     
-    response = json.dumps({
+    response = {
         'spec': '0.1.0',
         'name': badge['name'],
         'evidence': badge['url'],
@@ -38,8 +39,8 @@ def retrieve_badge(request, identifier):
         'recipient': email,
         'description': badge['description'],
         'template': badge['template'],
-    })
-    return HttpResponse(response, mimetype='application/x-badge-manifest')
+    }
+    return HttpResponse(json.dumps(response), mimetype='application/x-badge-manifest')
 
 
 def user_badges(request):
@@ -95,7 +96,7 @@ def _b64badges(user):
     badges = get_awarded_badges(user)
     email = User.objects.get(username=user).email
     urls = []
-    for tag in badges:
-        raw_json = json.dumps({'email':email, 'id':tag})
+    for name in badges:
+        raw_json = json.dumps({'email':email, 'id':name})
         urls.append(base64url_encode(raw_json))
     return urls
