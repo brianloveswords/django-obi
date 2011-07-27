@@ -9,6 +9,3 @@ urlpatterns = patterns('',
     url(r'mine/?', views.user_badges),
     url(r'send/?', views.send_badges),
 )
-
-if settings.DEBUG:
-    urlpatterns += patterns('', url(r"diagnose/?", views.diagnose))

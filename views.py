@@ -59,14 +59,6 @@ def send_badges(request):
         return HttpResponse(json.dumps({'errors': errors}), mimetype=json_mime, status=500)
     return HttpResponse(json.dumps({'status':'okay'}), mimetype=json_mime)
 
-def diagnose(request):
-    """
-    This view only work if settings.DEBUG is True.
-    """
-    if not settings.DEBUG:
-        return HttpResponseForbidden()
-    return HttpResponse('rockin')
-
 import base64
 def badge_urls(request):
     """
