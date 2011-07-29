@@ -9,7 +9,7 @@ resembling the following:
 
 ```python    
 MOZBADGES = {
-    'hub': 'http://badgehub.com',
+    'hub': 'http://alpha.badgehub.org',
     'badge_getter': 'users.badges.get_awarded_badges',
 }
 ```
