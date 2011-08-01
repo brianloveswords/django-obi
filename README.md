@@ -1,8 +1,11 @@
 # Django Open Badge Integration
 
-## Overview
-Step 0: Clone this repo somewhere in your django app's path and enable it in
-your setting file's `INSTALLED_APPS`.
+## Installation
+
+```pip install -e git://github.com/brianlovesdata/django-obi.git#egg=django_obi```
+
+## Configuration
+Step 0: Include `django_obi` in your setting file's `INSTALLED_APPS`.
 
 While you're mucking around in there, include an additional setting, something
 resembling the following:
