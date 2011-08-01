@@ -22,7 +22,6 @@ def retrieve_badge(request, identifier):
     See _b64badges() for how identifiers are determined
     """
     
-    print 'getting badge: %s' % identifier
     try:
         data = json.loads(base64url_decode(str(identifier)))
         email, badge_id = data['email'], data['id']
