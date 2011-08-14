@@ -109,7 +109,6 @@ def send_badges(request, template_name='django_obi/send.html',
             error_msg = _("Could not open connection to hub: %s")
             try:
                 hubresp = urlopen(issue_path, postdata)
-                print hubresp
                 return HttpResponseRedirect(reverse(send_badges_complete_view))
             except HTTPError, e:
                 try:
