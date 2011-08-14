@@ -1,0 +1,10 @@
+{% extends "django_obi/base.html" %}
+{% load i18n %}
+
+{% block obi_title%}{% trans "Error sending your badges to the OBI." %}{% endblock %}
+
+{% block obi_body %}
+<h1>{% trans 'Error sending your badges to the OBI.' %}</h1>
+
+<p>{{ message }}</p>
+{% endblock %}

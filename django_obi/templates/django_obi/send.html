@@ -1,0 +1,25 @@
+{% extends "django_obi/base.html" %}
+{% load i18n %}
+
+{% block obi_title%}{% trans "Send your badges to the OBI." %}{% endblock %}
+
+{% block obi_body %}
+  <h1>{% trans "Send your badges to the OBI." %}</h1>
+  {% if badges %}
+    <form action="{{ action }}" method="post">
+      {% csrf_token %}
+      <fieldset>
+        <legend>{% trans "Badges" %}</legend>
+        <p>
+          {{ form.badges }}
+          {% if form.badges.errors %}
+            <span>{{ form.badges.errors|join:", " }}</span>
+          {% endif %}
+        </p>
+        <input type="submit" value="{% trans "Send" %}">
+      </fieldset>
+    </form>
+  {% else %}
+    {% trans "You don't have any badges." %}
+  {% endif %}
+{% endblock %}

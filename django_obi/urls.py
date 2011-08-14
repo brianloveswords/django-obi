@@ -1,9 +1,10 @@
-from django.conf import settings
-from django.conf.urls.defaults import *
-import views
+from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns('',
-    url(r"(?P<identifier>.*)\.badge",  views.retrieve_badge),
-    url(r'mine/?', views.user_badges),
-    url(r'send/?', views.send_badges),
+urlpatterns = patterns('django_obi.views',
+    url(r'^mine/$', 'user_badges', name='obi-my-badges'),
+    url(r'^send/$', 'send_badges', name='obi-send-badges'),
+    url(r'^send/done/$', 'send_badges_done',
+        name='obi-send-badges-done'),
+    url(r'^(?P<identifier>.*)\.badge$',  'retrieve_badge',
+        name='obi-retrieve-badge'),
 )

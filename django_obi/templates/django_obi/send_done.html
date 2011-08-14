@@ -1,0 +1,10 @@
+{% extends "django_obi/base.html" %}
+{% load i18n %}
+
+{% block obi_title%}{% trans "Successfully sent your badges to the OBI." %}{% endblock %}
+
+{% block obi_body %}
+<h1>{% trans 'Successfully sent your badges to the OBI' %}</h1>
+
+<p>{% trans "Your badges were set to the OBI with your e-mail address." %}</p>
+{% endblock %}
