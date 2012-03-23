@@ -23,24 +23,6 @@ class SettingsTests(TestCase):
         self.assertTrue(url_re.match(hub_uri),
             "settings.MOZBADGES['hub'] must be valid http(s) uri.")
 
-        try:
-            # get the status url
-            resp = urlopen('%s/_status' % hub_uri)
-            httpstatus = resp.getcode()
-            hubstatus = json.loads(resp.read())['status']
-
-            self.assertEqual(httpstatus, 200,
-                "Expecting HTTP 200 from hub, got %s" % httpstatus)
-            self.assertEqual(hubstatus, 'okay',
-                "Got 200, but received unexpected response body")
-        except URLError:
-            self.assertTrue(False,
-                "Valid looking uri, but could not lookup. " +
-                "Problem may be temporary.")
-        except HTTPError:
-            self.assertTrue(False,
-                "Expecting HTTP 200 from hub, got %s" % httpstatus)
-
     def test_badge_getter(self):
         q_getter = settings.MOZBADGES.get('badge_getter', '')
         self.assertTrue(q_getter,
