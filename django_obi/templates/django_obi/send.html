@@ -1,0 +1,16 @@
+{% load i18n %}
+<div class="obi-send-badges-action">
+  <button type="button">{% trans "Send" %}</button>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="{{ hub }}/issuer.js"></script>
+  <script type="text/javascript">
+    $('.obi-send-badges-action button').click(function() {
+        $send_button = $(this);
+        $send_button.attr('disabled', 'disabled');
+        $.get('{% url obi-my-badges %}', function(data) {
+            OpenBadges.issue(data);
+            $send_button.removeAttr('disabled');
+        });
+    });
+  </script>
+</div>

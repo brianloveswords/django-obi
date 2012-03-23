@@ -12,7 +12,7 @@ resembling the following:
 
 ```python    
 MOZBADGES = {
-    'hub': 'http://alpha.badgehub.org',
+    'hub': 'http://beta.openbadges.org',
     'badge_getter': 'users.badges.get_awarded_badges',
 }
 ```
@@ -45,10 +45,10 @@ The badge processer expects badge_getter to output a dictionary looking somethin
 {
     'proud_js_expert' : {
         'name' : 'JavaScript Expert',
-        'url': 'http://example.com/badge-evidence/user-1/js-expert',
-        'image_url': 'http://example.com/badge-images/js-expert.png',
+        'evidence': 'http://example.com/badge-evidence/user-1/js-expert',
+        'image': 'http://example.com/badge-images/js-expert.png',
         'description': 'Awarded for being totally rad at JavaScript',
-        'template': 'http://example.com/badge-requirements/js-expert',
+        'criteria': 'http://example.com/badge-requirements/js-expert',
     },
     'ashamed_cobol_master': { ... },
     'reluctant_java_user': { ... },
@@ -64,6 +64,9 @@ metadata passed to the hub.
   account (that is, stored in the auth_user table and accessible by
   django.contrib.auth.models.User). Bad things will happen if the user has no
   email address. Always make sure the user has an email address!**
+
+**Django's site framework must be enabled, and Site.objects.get_current()
+  must provide the issuers name and domain**
 
 Hook up a route to the view `send_badges`, and have a logged-in user make an
 empty POST request to it.
