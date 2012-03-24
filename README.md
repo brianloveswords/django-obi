@@ -36,7 +36,7 @@ The badge getter is going to get called a little something like this:
 def some_view(request):
     user = request.user
     if user.is_authenticated():
-        badges = badge_getter(request.user)
+        badges = badge_getter(user)
 ```
 
 Your badge_getter method should take a User object and know how to get awarded
